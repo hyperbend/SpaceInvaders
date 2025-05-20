@@ -51,7 +51,8 @@ function renderBoard(board) {
         strHTML += '<tr>'
         for (var j = 0; j < board[i].length; j++) {
             const gameObject = board[i][j].gameObject || ''
-            strHTML += '<td>' + gameObject + '</td>'
+            strHTML += `<td data-i="${i}" data-j="${j}">${gameObject}</td>` // יוצר תא בטבלה עם התוכן ומיקומו בלוח
+
         }
         strHTML += '</tr>'
     }
