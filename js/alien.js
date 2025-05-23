@@ -19,7 +19,20 @@ function createAliens(board) {
         }
     }
 }
-function handleAlienHit(pos) { }
+
+function handleAlienHit(pos) {
+    updateCell(pos, null)
+    gGame.alienCount--
+
+    updateScore(10)
+
+    // אם כל החייזרים מתו – ניצחון
+    if (gGame.alienCount === 0) {
+        gGame.isOn = false
+        alert('You Win!')
+    }
+}
+
 
 function shiftBoardRight(board, fromI, toI) { }
 function shiftBoardLeft(board, fromI, toI) { }

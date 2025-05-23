@@ -16,6 +16,9 @@ var gGame = {
     alienCount: 0
 }
 
+var gScore = 0
+
+
 // Called when game loads
 function init() {
     gBoard = createBoard()
@@ -24,6 +27,24 @@ function init() {
     renderBoard(gBoard)
     gGame.isOn = true
 }
+
+//מאפס את הניקוד
+// מאתחל את gGame
+function onRestartGame() {
+    gScore = 0
+    document.querySelector('.score').innerText = gScore
+
+    gGame = {
+        isOn: true,
+        alienCount: 0
+    }
+
+    gBoard = createBoard()
+    createHero(gBoard)
+    createAliens(gBoard)
+    renderBoard(gBoard)
+}
+
 
 // Create and returns the board with aliens on top, ground at bottom
 // use the functions: createCell, createHero, createAliens
@@ -74,4 +95,10 @@ function updateCell(pos, gameObject = null) {
     gBoard[pos.i][pos.j].gameObject = gameObject
     var elCell = getElCell(pos)
     elCell.innerHTML = gameObject || ''
+}
+
+
+function updateScore(diff) {
+    gScore += diff
+    document.querySelector('.score').innerText = gScore
 }

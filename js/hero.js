@@ -23,6 +23,9 @@ function onKeyDown(ev) {
         case 'ArrowRight':
             moveHero(1)
             break
+        case 'Space':
+            shoot()
+            break
     }
 }
 
@@ -46,7 +49,51 @@ function moveHero(dir) {
 }
 
 // Sets an interval for shooting the laser up towards aliens
-function shoot() { }
+function shoot() {
+    if (gHero.isShoot) return
+    gHero.isShoot = true
+
+    var laserPos = { i: gHero.pos.i, j: gHero.pos.j }
+    var prevPos = null
+
+    var laserInterval = setInterval(function () {
+        // מוחקים לייזר קודם
+        if (prevPos) updateCell(prevPos, null)
+
+        laserPos.i--
+
+        if (laserPos.i < 0) {
+            clearInterval(laserInterval)
+            gHero.isShoot = false
+            return
+        }
+
+        var cell = gBoard[laserPos.i][laserPos.j]
+
+        if (cell.gameObject === ALIEN) {
+            updateCell(laserPos, null)
+            handleAlienHit(laserPos)
+            clearInterval(laserInterval)
+            gHero.isShoot = false
+            return
+        }
+
+        blinkLaser(laserPos)
+        prevPos = { i: laserPos.i, j: laserPos.j }
+
+    }, LASER_SPEED)
+}
+
+
+
 
 // renders a LASER at specific cell for short time and removes it
-function blinkLaser(pos) { }
+function blinkLaser(pos) {
+    updateCell(pos, LASER)
+
+    setTimeout(function () {
+        if (gBoard[pos.i][pos.j].gameObject === LASER) {
+            updateCell(pos, null)
+        }
+    }, LASER_SPEED)
+}
