@@ -26,6 +26,8 @@ function init() {
     createAliens(gBoard)
     renderBoard(gBoard)
     gGame.isOn = true
+    gIsAlienFreeze = false
+    moveAliens()
 }
 
 //מאפס את הניקוד
